@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+    <head>
+        <script src="https://knockoutjs.com/downloads/knockout-3.2.0.js"></script>
+        
+		<style>
+        .expensive{
+            color:red;
+        }
+
+		.cheap{
+            color:green;
+        }
+        </style>
+    </head>
+
+	<body>
+    	<input type="text" data-bind="value: price"/>
+	    <div  data-bind ="visible: price() != null,text: pricerate , css: { expensive: price() > 50 , cheap: price() <= 50 }"></div>
+   
+		<script>
+	
+        function viewmodel(){
+            var self= this;
+           
+		    self.price=ko.observable(20);
+			self.price = ko.observable().extend({
+            pattern: {
+                          message: 'Invalid text',
+                          params: '[0-9]'
+                      }
+            });
+			
+			self.pricerate= ko.computed(function(){
+			if(self.price() > 50){
+				return 'Gold is expensive today';
+			}
+			else{
+				return 'Gold is cheap today';
+			}
+      		});
+        }
+        ko.applyBindings(new viewmodel());
+    </script>
+</body>
+</html>
